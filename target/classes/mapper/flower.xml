@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.flower">
+    <select id="findAll" resultType="flower">
+        select * from flower
+    </select>
+
+    <select id="AllNumber" resultType="int">
+        select count(*) from flower
+    </select>
+
+    <select id="Map" resultType="flower">
+        select * from flower
+    </select>
+
+    <select id="findById" resultType="flower" parameterType="int">
+        select * from flower where id = #{0}
+    </select>
+
+    <select id="findByObj" resultType="flower" parameterType="flower">
+        select * from flower where id = #{id} and price = #{price}
+    </select>
+
+    <select id="findByMap" resultType="flower" parameterType="map">
+        select * from flower where id=#{flowerId}
+    </select>
+
+    <select id="findBytest" resultType="flower" parameterType="int">
+        <![CDATA[select * from flower where id >= #{0}]]>
+    </select>
+
+    <select id="page" resultType="flower" parameterType="map">
+        select * from flower limit #{pageStart}, #{pageSize};
+    </select>
+
+    <insert id="insertOne" parameterType="flower">
+        insert into flower value ( default ,#{name},#{price},#{production} )
+    </insert>
+
+    <select id="userIf" resultType="flower" parameterType="map">
+        select * from flower where 1=1
+         <if test="name!=null and name!=''">
+             and name = #{name}
+         </if>
+    </select>
+
+    <select id="userWhere" resultType="flower" parameterType="map">
+        select * from flower
+        <where>
+            <if test="name!=null and name!=''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="userChoose" resultType="flower" parameterType="map">
+        select * from flower
+        <where>
+            <choose>
+                <when test="name!=null and name!=''">
+                    and name=#{name}
+                </when>
+                <when test="price!=null and price!=0">
+                    and price=#{price}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+    <update id="updateFlower" parameterType="map">
+        update flower
+        <set>
+            <if test="price!=null and price!=0f">
+                price=#{price}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="userTrim" parameterType="flower">
+        update flower
+        <set>
+            name =
+            <trim prefix="'CZX" suffix=",'">
+                ok
+            </trim>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="userBind" parameterType="flower">
+
+    </select>
+</mapper>
